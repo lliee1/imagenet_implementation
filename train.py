@@ -3,6 +3,22 @@ import torchvision
 import torchvision.transforms as transforms
 from tqdm import tqdm
 import wandb
+import random
+import os
+import numpy as np
+
+# seed
+def setup_seed(seed):
+    random.seed(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
+    
+setup_seed(20)
 
 # Set device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -26,7 +42,7 @@ train_dataset = torchvision.datasets.ImageFolder(
     transform=transform
 )
 
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=2)
+train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=8)
 
 # Load the ResNet50 model
 model = torchvision.models.resnet50()
