@@ -14,7 +14,7 @@ learning_rate = 0.1
 
 # Initialize transformations for data augmentation
 transform = transforms.Compose([
-    transforms.RandomCrop(224),
+    transforms.RandomResizedCrop(224),
     transforms.RandomHorizontalFlip(),
     transforms.ToTensor(),
     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
