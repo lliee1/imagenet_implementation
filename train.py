@@ -22,7 +22,7 @@ setup_seed(20)
 
 # Set device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-multi = True
+multi = False
 
 # Set hyperparameters
 num_epochs = 90
