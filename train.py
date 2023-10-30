@@ -82,6 +82,6 @@ for epoch in range(num_epochs):
 
     # Print the loss for every epoch
     print(f'Epoch {epoch+1}/{num_epochs}, Loss: {loss.item():.4f}')
-    wandb.log("train/loss": loss.item())
+    wandb.log({"train/loss": loss.item()})
 
 print(f'Finished Training, Loss: {loss.item():.4f}')
