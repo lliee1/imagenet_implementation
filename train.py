@@ -101,28 +101,28 @@ wandb.config.update(args)
 
 best_acc = 0
 for epoch in range(num_epochs):
-    # train_losses = []
+    train_losses = []
     val_losses = []
-    # for inputs, labels in tqdm(train_loader, desc="Epoch {0}".format(epoch), ascii=" =", leave=True):
-    #     # Move input and label tensors to the device
-    #     inputs = inputs.to(device)
-    #     labels = labels.to(device)
+    for inputs, labels in tqdm(train_loader, desc="Epoch {0}".format(epoch), ascii=" =", leave=True):
+        # Move input and label tensors to the device
+        inputs = inputs.to(device)
+        labels = labels.to(device)
 
-    #     # Zero out the optimizer
-    #     optimizer.zero_grad()
+        # Zero out the optimizer
+        optimizer.zero_grad()
 
-    #     # Forward pass
-    #     outputs = model(inputs)
-    #     loss = criterion(outputs, labels)
-    #     train_losses.append(loss.item())
+        # Forward pass
+        outputs = model(inputs)
+        loss = criterion(outputs, labels)
+        train_losses.append(loss.item())
 
-    #     # Backward pass
-    #     loss.backward()
-    #     optimizer.step()
+        # Backward pass
+        loss.backward()
+        optimizer.step()
 
-    # # Print the loss for every epoch
-    # print(f'Epoch {epoch+1}/{num_epochs}, Loss: {np.mean(train_losses)}')
-    # wandb.log({"train/loss": np.mean(train_losses)})
+    # Print the loss for every epoch
+    print(f'Epoch {epoch+1}/{num_epochs}, Loss: {np.mean(train_losses)}')
+    wandb.log({"train/loss": np.mean(train_losses)})
     
     
     correct = 0
