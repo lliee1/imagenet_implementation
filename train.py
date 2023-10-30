@@ -29,7 +29,7 @@ train_dataset = torchvision.datasets.ImageFolder(
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=2)
 
 # Load the ResNet50 model
-model = torchvision.models.resnet50(pretrained=True)
+model = torchvision.models.resnet50()
 
 # Parallelize training across multiple GPUs
 model = torch.nn.DataParallel(model)
