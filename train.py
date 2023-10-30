@@ -1,7 +1,7 @@
 import torch
 import torchvision
 import torchvision.transforms as transforms
-
+from tqdm import tqdm
 # Set device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -40,9 +40,31 @@ criterion = torch.nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate, momentum=0.9, weight_decay=1e-4)
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=30, gamma=0.1)
 
+wandb.init(project='imagenet_implementation')
+wandb.run.name = 'imagenet1k_resnet50_baseline'
+wandb.run.save()
+
+args = {
+    # base
+    "model": "resnet50",
+    "batch_size": batch_size,
+    "epochs": num_epochs,
+    
+    # optim
+    "learning_rate": learning_rate,
+    "momentum": 0.9,
+    "weight_decay": 1e-4,
+    
+    # scheduler
+    "scheduler": "stepLR",
+    "step_size":30,
+    "gamma": 0.1
+}
+wandb.config.update(args)
+
 # Train the model...
 for epoch in range(num_epochs):
-    for inputs, labels in train_loader:
+    for inputs, labels in tqdm(train_loader, desc="Epoch {0}".foramt(epoch), ascii=" =", leave=True):
         # Move input and label tensors to the device
         inputs = inputs.to(device)
         labels = labels.to(device)
@@ -60,5 +82,6 @@ for epoch in range(num_epochs):
 
     # Print the loss for every epoch
     print(f'Epoch {epoch+1}/{num_epochs}, Loss: {loss.item():.4f}')
+    wandb.log("train/loss": loss.item())
 
 print(f'Finished Training, Loss: {loss.item():.4f}')
