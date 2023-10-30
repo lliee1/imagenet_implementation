@@ -104,6 +104,8 @@ for epoch in range(num_epochs):
     train_losses = []
     val_losses = []
     for inputs, labels in tqdm(train_loader, desc="Epoch {0}".format(epoch), ascii=" =", leave=True):
+        inputs = inputs.to(device)
+        labels = labels.to(device)
         # Zero out the optimizer
         optimizer.zero_grad()
 
@@ -124,7 +126,9 @@ for epoch in range(num_epochs):
     correct = 0
     total = 0
     with torch.no_grad():
-        for inputs, labels in tqdm(val_loader, desc="Test".format(epoch), ascii=" =", leave=True):          
+        for inputs, labels in tqdm(val_loader, desc="Test".format(epoch), ascii=" =", leave=True):
+            inputs = inputs.to(device)
+            labels = labels.to(device)
             outputs = model(inputs)
             loss = criterion(outputs, labels)
             val_losses.append(loss.item())
