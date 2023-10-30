@@ -1,0 +1,15 @@
+__pycache__
+
+Dis/
+
+*.zip
+*.pt
+
+output/
+
+test_images/
+*.jpg
+*.bmp
+*.png
+data/
+wandb/
