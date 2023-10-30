@@ -53,8 +53,8 @@ val_dataset = torchvision.datasets.ImageFolder(
     root='./data/val', 
     transform=val_transform
 )
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=8)
-val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=8)
+train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=8, pin_memory=True)
+val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=8, pin_memory=True)
 
 # Load the ResNet50 model
 model = torchvision.models.resnet50()
@@ -104,10 +104,6 @@ for epoch in range(num_epochs):
     train_losses = []
     val_losses = []
     for inputs, labels in tqdm(train_loader, desc="Epoch {0}".format(epoch), ascii=" =", leave=True):
-        # Move input and label tensors to the device
-        inputs = inputs.to(device)
-        labels = labels.to(device)
-
         # Zero out the optimizer
         optimizer.zero_grad()
 
@@ -128,18 +124,14 @@ for epoch in range(num_epochs):
     correct = 0
     total = 0
     with torch.no_grad():
-        for inputs, labels in tqdm(val_loader, desc="Test".format(epoch), ascii=" =", leave=True):
-                inputs = inputs.to(device)
-                labels = labels.to(device)
-                
-                
-                outputs = model(inputs)
-                loss = criterion(outputs, labels)
-                val_losses.append(loss.item())
-                
-                _, preds = torch.max(outputs.data, 1)
-                total += labels.size(0)
-                correct += (preds == labels).sum().item()
+        for inputs, labels in tqdm(val_loader, desc="Test".format(epoch), ascii=" =", leave=True):          
+            outputs = model(inputs)
+            loss = criterion(outputs, labels)
+            val_losses.append(loss.item())
+            
+            _, preds = torch.max(outputs.data, 1)
+            total += labels.size(0)
+            correct += (preds == labels).sum().item()
     
     acc = 100*(correct / total)
     wandb.log({"val/acc": acc, "val/loss": np.mean(val_losses)})
