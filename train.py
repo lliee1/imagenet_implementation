@@ -101,7 +101,7 @@ wandb.config.update(args)
 best_acc = 0
 for epoch in range(num_epochs):
     # train_losses = []
-    # val_losses = []
+    val_losses = []
     # for inputs, labels in tqdm(train_loader, desc="Epoch {0}".format(epoch), ascii=" =", leave=True):
     #     # Move input and label tensors to the device
     #     inputs = inputs.to(device)
