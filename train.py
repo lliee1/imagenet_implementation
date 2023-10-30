@@ -66,7 +66,7 @@ wandb.config.update(args)
 
 # Train the model...
 for epoch in range(num_epochs):
-    for inputs, labels in tqdm(train_loader, desc="Epoch {0}".foramt(epoch), ascii=" =", leave=True):
+    for inputs, labels in tqdm(train_loader, desc="Epoch {0}".format(epoch), ascii=" =", leave=True):
         # Move input and label tensors to the device
         inputs = inputs.to(device)
         labels = labels.to(device)
