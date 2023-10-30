@@ -1,6 +1,7 @@
 # torch
 torch==2.0.1
 torchvision==0.15.2
+torchmetrics==0.11.4
 wandb
 opencv-python
 tqdm
