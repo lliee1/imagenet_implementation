@@ -2,6 +2,8 @@ import torch
 import torchvision
 import torchvision.transforms as transforms
 from tqdm import tqdm
+import wandb
+
 # Set device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
