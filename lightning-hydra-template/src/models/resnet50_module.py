@@ -124,6 +124,9 @@ class Resnet50Module(LightningModule):
         # update and log metrics
         self.train_loss(loss)
         self.train_acc(preds, targets)
+        current_lr = self.trainer.optimizers[0].param_groups[0]["lr"]
+        self.log("Learning rate", current_lr, on_step=True, on_epoch=False)
+        
         self.log("train/loss", self.train_loss, on_step=True, on_epoch=False, prog_bar=True)
         self.log("train/acc", self.train_acc, on_step=True, on_epoch=False, prog_bar=True)
 
