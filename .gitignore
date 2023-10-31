@@ -11,5 +11,5 @@ test_images/
 *.jpg
 *.bmp
 *.png
-data/
+imagenet/
 wandb/

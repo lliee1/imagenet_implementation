@@ -1,0 +1,5 @@
+_target_: src.data.resnet50_datamodule.Resnet50DataModule
+batch_size: 256 # Needs to be divisible by the number of devices (e.g., if in a distributed setup)
+num_workers: 8
+pin_memory: True
+
