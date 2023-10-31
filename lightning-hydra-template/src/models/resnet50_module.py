@@ -44,6 +44,7 @@ class Resnet50Module(LightningModule):
         net: torch.nn.Module,
         optimizer: torch.optim.Optimizer,
         scheduler: torch.optim.lr_scheduler,
+        compile: bool,
     ) -> None:
         """Initialize a `MNISTLitModule`.
 
