@@ -70,7 +70,6 @@ class Resnet50Module(LightningModule):
         # for averaging loss across batches
         self.train_loss = MeanMetric()
         self.val_loss = MeanMetric()
-        self.test_loss = MeanMetric()
 
         # for tracking best so far validation accuracy
         self.val_acc_best = MaxMetric()
