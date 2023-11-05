@@ -126,27 +126,27 @@ class Resnet50_randcutmixModule(LightningModule):
 
         return bbx1, bby1, bbx2, bby2        
         
-    def randcutmix(self, input, target):
+    def randcutmix(self, inputs, target):
         lam = np.random.beta(self.beta, self.beta)
-        rand_index = torch.randperm(input.size()[0]).cuda()
+        rand_index = torch.randperm(inputs.size()[0]).cuda()
         target_a = target
         target_b = target[rand_index]
-        bbx1, bby1, bbx2, bby2 = self.rand_bbox(input.size(), lam)
+        bbx1, bby1, bbx2, bby2 = self.rand_bbox(inputs.size(), lam)
         
         # randcutmix
-        cutmix_imgs = input[rand_index, :, :, :]
-        for i in range(input.size()[0]):
+        cutmix_imgs = inputs[rand_index, :, :, :]
+        for i in range(inputs.size()[0]):
             chocie_cutmix = random.randrange(0,len(self.transform_cutmix))
             choice_original = random.randrange(0,len(self.transform_original))
             exec(self.transform_cutmix[chocie_cutmix])
             exec(self.transform_original[choice_original])
             
-        input[:, :, bbx1:bbx2, bby1:bby2] = cutmix_imgs[:, :, bbx1:bbx2, bby1:bby2]
+        inputs[:, :, bbx1:bbx2, bby1:bby2] = cutmix_imgs[:, :, bbx1:bbx2, bby1:bby2]
         
         # adjust lambda to exactly match pixel ratio
-        lam = 1 - ((bbx2 - bbx1) * (bby2 - bby1) / (input.size()[-1] * input.size()[-2]))
+        lam = 1 - ((bbx2 - bbx1) * (bby2 - bby1) / (inputs.size()[-1] * inputs.size()[-2]))
         
-        return input, target_a, target_b, lam
+        return inputs, target_a, target_b, lam
           
     def randcutmix_model_step(
         self, batch: Tuple[torch.Tensor, torch.Tensor]
