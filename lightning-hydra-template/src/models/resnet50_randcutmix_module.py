@@ -6,7 +6,7 @@ from torchmetrics import MaxMetric, MeanMetric
 from torchmetrics.classification.accuracy import Accuracy
 import numpy as np
 import random
-
+import torchvision
 class Resnet50_randcutmixModule(LightningModule):
     """Example of a `LightningModule` for MNIST classification.
 
